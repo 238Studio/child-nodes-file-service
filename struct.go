@@ -1,6 +1,8 @@
 package file
 
-import "os"
+import (
+	"os"
+)
 
 // File 文件对象
 type File struct {

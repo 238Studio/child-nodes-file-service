@@ -22,14 +22,12 @@ func GetFile(path string) (File, error) {
 // WriteFileByOffset 根据偏移量写入文件
 // 传入参数：文件内容([]byte)、偏移量
 // 返回参数：错误信息
-// FIXME：处理并发写时存在问题
 func (file *File) WriteFileByOffset(content []byte, offset int64) error {
 	err := writeFileByOffset(file.File, content, offset)
 	if err != nil {
 		return err
 	}
 
-	//考虑并发写问题，这里不更新偏移量
 	return nil
 }
 

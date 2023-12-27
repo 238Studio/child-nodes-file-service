@@ -30,7 +30,6 @@ func TestAppendFile(t *testing.T) {
 	}
 }
 
-// FIXME:并发写测试存在问题。但因为子节点并发写情况不常见，延后修复。
 func TestOffset(t *testing.T) {
 	filePath := "./test/meta.txt"
 
@@ -50,24 +49,19 @@ func TestOffset(t *testing.T) {
 	}
 
 	var waitGroup sync.WaitGroup
-	var mu sync.Mutex
 	waitGroup.Add(2)
 	go func() {
-		mu.Lock()
 		err = f.WriteFileByOffset(secondHalf, int64(secondHalfOffset))
 		if err != nil {
 			log.Fatal(err)
 		}
-		mu.Unlock()
 		waitGroup.Done()
 	}()
 	go func() {
-		mu.Lock()
 		err = f.WriteFileByOffset(firstHalf, 0)
 		if err != nil {
 			log.Fatal(err)
 		}
-		mu.Unlock()
 		waitGroup.Done()
 	}()
 }
