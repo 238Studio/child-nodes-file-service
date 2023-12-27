@@ -1,44 +1,30 @@
 package file
 
+// CreateDir 创建目录
+// 传入参数:目录路径
+// 返回参数:error
+func CreateDir(path string) error {
+	return createDir(path)
+}
+
 // GetFile 获取文件
 // 传入参数：文件路径
 // 返回参数：os.File, error
 func GetFile(path string) (File, error) {
 	file, err := getFile(path)
-	//获取文件偏移量
-	offset, err := file.Seek(0, 2)
 	if err != nil {
 		return File{}, err
 	}
-	return File{file: file, offset: offset}, err
-}
 
-// CreateFile 创建文件
-// 传入参数：文件路径
-// 返回参数：os.File, error
-func CreateFile(path string) (File, error) {
-	file, err := createFile(path)
-	return File{file: file, offset: 0}, err
-}
-
-// WriteFile 写入文件
-// 传入参数：文件路径、文件内容([]byte)
-// 返回参数：错误信息
-func (file *File) WriteFile(content []byte) error {
-	err := writeFileByOffset(file.file, content, 0)
-	if err != nil {
-		return err
-	}
-
-	file.offset += int64(len(content)) //更新偏移量
-	return nil
+	return File{File: file}, nil
 }
 
 // WriteFileByOffset 根据偏移量写入文件
-// 传入参数：文件路径、文件内容([]byte)、偏移量
+// 传入参数：文件内容([]byte)、偏移量
 // 返回参数：错误信息
+// FIXME：处理并发写时存在问题
 func (file *File) WriteFileByOffset(content []byte, offset int64) error {
-	err := writeFileByOffset(file.file, content, offset)
+	err := writeFileByOffset(file.File, content, offset)
 	if err != nil {
 		return err
 	}
@@ -48,15 +34,25 @@ func (file *File) WriteFileByOffset(content []byte, offset int64) error {
 }
 
 // AppendFile 追加文件
-// 传入参数：文件路径、文件内容([]byte)
+// 传入参数：path,文件内容([]byte)
 // 返回参数：错误信息
-func (file *File) AppendFile(path string, content []byte) error {
-	err := writeFileByOffset(file.file, content, file.offset)
+func AppendFile(path string, content []byte) error {
+	err := appendFile(path, content)
 	if err != nil {
 		return err
 	}
 
-	file.offset += int64(len(content)) //更新偏移量
+	return nil
+}
+
+// AppendString 追加字符串到文本文件
+// 传入参数:path,文件内容(string)
+// 返回参数:错误信息
+func AppendString(path, content string) error {
+	err := appendString(path, content)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -67,9 +63,16 @@ func DeleteFile(path string) error {
 	return deleteFile(path)
 }
 
-// IsFileExist 判断文件是否存在
-// 传入参数：文件路径
+// DeleteDir 删除目录
+// 传入参数:目录路径
+// 返回参数:错误信息
+func DeleteDir(path string) error {
+	return deleteDir(path)
+}
+
+// IsPathExist 判断路径是否存在
+// 传入参数：路径(目录、文件)
 // 返回参数：bool
-func IsFileExist(path string) bool {
-	return isFileExist(path)
+func IsPathExist(path string) bool {
+	return isPathExist(path)
 }
