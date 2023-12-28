@@ -11,7 +11,7 @@ import (
 // 传入参数:目录路径
 // 返回参数:error
 func createDir(path string) error {
-	err := os.Mkdir(path, 0644)
+	err := os.Mkdir(path, 0744)
 	if err != nil {
 		return util.NewError(_const.File, _const.TrivialException, err)
 	}
@@ -23,7 +23,7 @@ func createDir(path string) error {
 // 传入参数：文件路径
 // 返回参数：os.File, error
 func getFile(path string) (*os.File, error) {
-	file, err := os.OpenFile(path, os.O_RDWR|os.O_CREATE, 0644)
+	file, err := os.OpenFile(path, os.O_RDWR|os.O_CREATE, 0744)
 	if err != nil {
 		return nil, util.NewError(_const.File, _const.TrivialException, err)
 	}
@@ -34,7 +34,7 @@ func getFile(path string) (*os.File, error) {
 // 传入参数:文件路径，文件内容([]byte)
 // 返回参数:error
 func appendFile(path string, content []byte) error {
-	file, err := os.OpenFile(path, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0644)
+	file, err := os.OpenFile(path, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0744)
 	if err != nil {
 		return util.NewError(_const.File, _const.TrivialException, err)
 	}
@@ -62,7 +62,7 @@ func writeFileByOffset(file *os.File, content []byte, offset int64) error {
 // 传入:path,content(string)
 // 传出:错误信息
 func appendString(path, content string) error {
-	file, err := os.OpenFile(path, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0644)
+	file, err := os.OpenFile(path, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0744)
 	if err != nil {
 		return util.NewError(_const.File, _const.TrivialException, err)
 	}
