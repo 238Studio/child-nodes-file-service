@@ -74,3 +74,10 @@ func DeleteDir(path string) error {
 func IsPathExist(path string) bool {
 	return isPathExist(path)
 }
+
+// CloseFile 关闭文件
+// 传入参数:无
+// 返回参数:错误信息
+func (file *File) CloseFile() error {
+	return file.File.Close()
+}
