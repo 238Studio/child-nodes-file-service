@@ -64,6 +64,11 @@ func TestOffset(t *testing.T) {
 		}
 		waitGroup.Done()
 	}()
+
+	err = f.CloseFile()
+	if err != nil {
+		t.Log(err)
+	}
 }
 
 func TestOffset1(t *testing.T) {
@@ -92,6 +97,11 @@ func TestOffset1(t *testing.T) {
 	err = f.WriteFileByOffset(firstHalf, 0)
 	if err != nil {
 		log.Fatal(err)
+	}
+
+	err = f.CloseFile()
+	if err != nil {
+		t.Log(err)
 	}
 }
 
