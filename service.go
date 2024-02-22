@@ -3,8 +3,7 @@ package file
 import (
 	"os"
 
-	_const "github.com/238Studio/child-nodes-assist/const"
-	"github.com/238Studio/child-nodes-assist/util"
+	"github.com/238Studio/child-nodes-error-manager/errpack"
 )
 
 // 创建目录
@@ -13,7 +12,7 @@ import (
 func createDir(path string) error {
 	err := os.Mkdir(path, 0744)
 	if err != nil {
-		return util.NewError(_const.File, _const.TrivialException, err)
+		return errpack.NewError(errpack.File, errpack.TrivialException, err)
 	}
 
 	return nil
@@ -25,7 +24,7 @@ func createDir(path string) error {
 func getFile(path string) (*os.File, error) {
 	file, err := os.OpenFile(path, os.O_RDWR|os.O_CREATE, 0744)
 	if err != nil {
-		return nil, util.NewError(_const.File, _const.TrivialException, err)
+		return nil, errpack.NewError(errpack.File, errpack.TrivialException, err)
 	}
 	return file, nil
 }
@@ -36,12 +35,12 @@ func getFile(path string) (*os.File, error) {
 func appendFile(path string, content []byte) error {
 	file, err := os.OpenFile(path, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0744)
 	if err != nil {
-		return util.NewError(_const.File, _const.TrivialException, err)
+		return errpack.NewError(errpack.File, errpack.TrivialException, err)
 	}
 
 	_, err = file.Write(content)
 	if err != nil {
-		return util.NewError(_const.File, _const.TrivialException, err)
+		return errpack.NewError(errpack.File, errpack.TrivialException, err)
 	}
 
 	return nil
@@ -53,7 +52,7 @@ func appendFile(path string, content []byte) error {
 func writeFileByOffset(file *os.File, content []byte, offset int64) error {
 	_, err := file.WriteAt(content, offset)
 	if err != nil {
-		return util.NewError(_const.File, _const.TrivialException, err)
+		return errpack.NewError(errpack.File, errpack.TrivialException, err)
 	}
 	return nil
 }
@@ -64,12 +63,12 @@ func writeFileByOffset(file *os.File, content []byte, offset int64) error {
 func appendString(path, content string) error {
 	file, err := os.OpenFile(path, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0744)
 	if err != nil {
-		return util.NewError(_const.File, _const.TrivialException, err)
+		return errpack.NewError(errpack.File, errpack.TrivialException, err)
 	}
 
 	_, err = file.WriteString(content)
 	if err != nil {
-		return util.NewError(_const.File, _const.TrivialException, err)
+		return errpack.NewError(errpack.File, errpack.TrivialException, err)
 	}
 
 	return nil
@@ -81,7 +80,7 @@ func appendString(path, content string) error {
 func deleteFile(path string) error {
 	err := os.Remove(path)
 	if err != nil {
-		return util.NewError(_const.File, _const.TrivialException, err)
+		return errpack.NewError(errpack.File, errpack.TrivialException, err)
 	}
 	return nil
 }
@@ -92,7 +91,7 @@ func deleteFile(path string) error {
 func deleteDir(path string) error {
 	err := os.RemoveAll(path)
 	if err != nil {
-		return util.NewError(_const.File, _const.TrivialException, err)
+		return errpack.NewError(errpack.File, errpack.TrivialException, err)
 	}
 	return nil
 }
