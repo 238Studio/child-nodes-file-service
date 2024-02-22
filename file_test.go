@@ -6,7 +6,7 @@ import (
 	"sync"
 	"testing"
 
-	file "github.com/238Studio/child-nodes-file-manager-service"
+	file "github.com/238Studio/child-nodes-file-service"
 )
 
 func TestCreateDir(t *testing.T) {
